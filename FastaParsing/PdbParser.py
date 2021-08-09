@@ -1,5 +1,3 @@
-import os
-import sys
 import Task
 from Bio.PDB.PDBParser import PDBParser
 from Bio.PDB.NeighborSearch import NeighborSearch
@@ -55,12 +53,12 @@ class PDBParsing(Task.Task):
             return atoms
         else:
             raise self.NotALigandError()
-    def run(self, ab):
-        if len(sys.argv) <= ab+2:
+    def run(self, params):
+        if len(params) <= 2:
             Task.Task.help(self)
         else:
-            structure = PDBParser().get_structure("s", sys.argv[ab+1])
-            if sys.argv[ab+2] == "-s" or sys.argv[ab+2] == "--show":
+            structure = PDBParser().get_structure("s", params[1])
+            if params[2] == "-s" or params[2] == "--show":
                 for model in structure:
                     for chain in model:
                         for resi in chain:
@@ -71,20 +69,20 @@ class PDBParsing(Task.Task):
                             print(r)
                         print("--------------------------")
                 return structure
-            elif sys.argv[ab+2] == "-a" or sys.argv[ab+2] == "--atoms":
+            elif params[2] == "-a" or params[2] == "--atoms":
                 r = ""
                 for atom in structure.get_atoms():
                     r = r + atom.get_name() + " "
                 print(r)
                 return r
-            elif sys.argv[ab+2] == "-r" or sys.argv[ab+2] == "--residues":
+            elif params[2] == "-r" or params[2] == "--residues":
                 r = ""
                 for model in structure:
                     for resi in model.get_residues():
                         r = r + resi.get_resname() + " "
                 print(r)
                 return r
-            elif sys.argv[ab+2] == "-q" or sys.argv[ab+2] == "--quantities":
+            elif params[2] == "-q" or params[2] == "--quantities":
                 m = len(structure)
                 c = 0
                 r = 0
@@ -102,38 +100,38 @@ class PDBParsing(Task.Task):
                         "chains": c,
                         "residues": r,
                         "atoms": a}
-            elif sys.argv[ab+2] == "-w" or sys.argv[ab+2] == "--width":
+            elif params[2] == "-w" or params[2] == "--width":
                 m = 0
                 for a1 in structure.get_atoms():
                     for a2 in structure.get_atoms():
                         m = max(m, a1 - a2)
                 print(m)
                 return m
-            elif sys.argv[ab+2] == "-la" or sys.argv[ab+2] == "--ligand-atoms":
+            elif params[2] == "-la" or params[2] == "--ligand-atoms":
                 m = 0
-                if len(sys.argv) < ab + 4:
+                if len(params) < 4:
                     Task.Task.help(self)
                 else:
-                    name = "H_" + sys.argv[ab+3]
+                    name = "H_" + params[3]
                     return self.getClose(
                         name, structure,
-                        int(sys.argv[ab+4]),
+                        int(params[4]),
                         'A',
                         lambda a,r: a.get_parent() != r,
                         lambda a: a.get_fullname() + "\t" + str(a.get_coord()))
-            elif sys.argv[ab+2] == "-lr" or sys.argv[ab+2] == "--ligand-residues":
+            elif params[2] == "-lr" or params[2] == "--ligand-residues":
                 m = 0
-                if len(sys.argv) < ab + 4:
+                if len(params) < 4:
                     Task.Task.help(self)
                 else:
-                    name = "H_" + sys.argv[ab+3]
+                    name = "H_" + params[3]
                     return self.getClose(
                         name, 
                         structure, 
-                        int(sys.argv[ab+4]), 'R',
+                        int(params[4]), 'R',
                         lambda r1,r2: r1 != r2,
                         lambda r: r.get_resname() + "\t" + str(self.averageVector(r)))
-            elif sys.argv[ab+2] == "-gl" or sys.argv[ab+2] == "--get-ligands":
+            elif params[2] == "-gl" or params[2] == "--get-ligands":
                 ligs = []
                 for m in structure:
                     for c in m:
@@ -143,3 +141,6 @@ class PDBParsing(Task.Task):
                 for l in ligs:
                     print(l.get_resname() + "\t" + str(self.averageVector(l)))
                 return ligs
+            else:
+                print("argument " + params[2] + " is not a valid argument:")
+                Task.Task.help(self)

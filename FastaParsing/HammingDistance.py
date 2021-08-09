@@ -1,5 +1,3 @@
-import os
-import sys
 import Task
 import FastaParsing
 
@@ -16,13 +14,13 @@ class HammingDistance(Task.Task):
         print(pre*(mult+1) + "sequence_numbers are the numbers indicating which sequence to read in given file")
         print()
         print(pre*(mult+1) + "if the sequences length differ, the DifferentLengthError is raised")
-    def run(self, ab):
-        if len(sys.argv) < ab+4:
+    def run(self, params):
+        if len(params) < 4:
             self.help()
         else:
             fp = FastaParsing.FastaParsing()
-            s1 = fp.seqInfo(sys.argv[ab+1],sys.argv[ab+2]).seq
-            s2 = fp.seqInfo(sys.argv[ab+3],sys.argv[ab+4]).seq
+            s1 = fp.seqInfo(params[1],params[2]).seq
+            s2 = fp.seqInfo(params[3],params[4]).seq
             if len(s1) != len(s2):
                 raise DifferentLengthError()
             res = 0

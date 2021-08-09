@@ -1,4 +1,3 @@
-import os
 import sys
 import Task
 import FastaParsing
@@ -60,24 +59,24 @@ class EditDistance(Task.Task):
         self.backtrackRecur(s1,len(s1),"",s2,len(s2),"",m)
         return self.curr_results
 
-    def run(self, ab):
-        if len(sys.argv) < ab+4:
+    def run(self, params):
+        if len(params) < 4:
             self.help()
         else:
             fp = FastaParsing.FastaParsing()
-            s1 = fp.seqInfo(sys.argv[ab+1],sys.argv[ab+2]).seq
-            s2 = fp.seqInfo(sys.argv[ab+3],sys.argv[ab+4]).seq
+            s1 = fp.seqInfo(params[1],params[2]).seq
+            s2 = fp.seqInfo(params[3],params[4]).seq
             m = self.getMatrix(s1, s2)
             ed = m[len(s1)-1][len(s2)-1]
             print("edit distance is:")
             print(ed)
-            if len(sys.argv) == ab+6:
-                if sys.argv[ab+5] == "-m" or sys.argv[ab+5] == "-ma":
+            if len(params) == 6:
+                if params[5] == "-m" or params[5] == "-ma":
                     print()
                     print("with matrix:")
                     for i in m:
                         print(i)
-                elif sys.argv[ab+5] == "-a" or sys.argv[ab+5] == "-ma":
+                elif params[5] == "-a" or params[5] == "-ma":
                     cr = self.backtrack(s1,s2,m)
                     print()
                     print("with alignments:")
@@ -86,7 +85,7 @@ class EditDistance(Task.Task):
                         print(x[1])
                         print()
                 else:
-                    print("argument " + sys.argv[ab+5] + " is not a valid argument:")
+                    print("argument " + params[5] + " is not a valid argument:")
                     Task.Task.help(self)
 
 

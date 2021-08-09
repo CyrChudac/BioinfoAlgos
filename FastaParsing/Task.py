@@ -5,6 +5,6 @@ class Task():
         print(pre*mult + "help not defined in class " + self.name)
     def help(self):
         self.help("\t", 0)
-    def run(self, ab):
+    def run(self, params):
         print("run not defined for class " + self.name)
 

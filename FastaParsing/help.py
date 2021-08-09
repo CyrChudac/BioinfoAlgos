@@ -6,7 +6,7 @@ class Help(Task.Task):
         return super(Help, self).__init__()
     def help(self, pre: str, mult: int):
         print(pre*mult + "show this page")
-    def run(self, ab):
+    def run(self, params):
         print("TOOL HELP PAGE")
         for x in self.dic:
             print("\t" + x)

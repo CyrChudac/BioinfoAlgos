@@ -18,4 +18,4 @@ try:
 except KeyError:
     task = dic["-h"]
 
-task.run(1)
+task.run(sys.argv[1:])

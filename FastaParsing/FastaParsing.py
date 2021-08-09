@@ -1,5 +1,3 @@
-import os
-import sys
 import Task
 from Bio import SeqIO
 
@@ -23,46 +21,46 @@ class FastaParsing(Task.Task):
         for i in range(int(num)):
             res = next(iter)
         return res
-    def run(self, ab):
-        if len(sys.argv) <= ab+2:
+    def run(self, params):
+        if len(params) <= 2:
             self.help()
         else:
             try:
-                rec = self.seqInfo(sys.argv[ab+1],sys.argv[ab+2])
-                if sys.argv[ab+3] == "-s" or sys.argv[ab+3] == "--show":
-                    if len(sys.argv) == ab+4:
+                rec = self.seqInfo(params[1], params[2])
+                if params[3] == "-s" or params[3] == "--show":
+                    if len(params) == 4:
                         print(rec.description)
                         print(rec.seq)
-                    if sys.argv[ab+4] == "d":
+                    if params[4] == "d":
                         print(rec.description)
                     else:
-                        if sys.argv[ab+4] == "s":
+                        if params[4] == "s":
                             print(rec.seq)
                         else:
-                            if sys.argv[ab+4] == "sd":
+                            if params[4] == "sd":
                                 print(rec.seq)
                                 print(rec.description)
                             else:
-                                if sys.argv[ab+4] == "ds":
+                                if params[4] == "ds":
                                     print(rec.description)
                                     print(rec.seq)
                                 else:
-                                    print("unsupported argument indicating what to show: " + "\"" + sys.argv[ab+4] + "\"")
-                elif sys.argv[ab+3] == "-l" or sys.argv[ab+3] == "--length":
+                                    print("unsupported argument indicating what to show: " + "\"" + params[4] + "\"")
+                elif params[3] == "-l" or params[3] == "--length":
                     print(len(rec.seq))
-                elif sys.argv[ab+3] == "-ss" or sys.argv[ab+3] == "-subsequence":
-                    if len(sys.argv) < ab + 5:
+                elif params[3] == "-ss" or params[3] == "-subsequence":
+                    if len(params) < 5:
                         self.help()
                     else:
-                        if len(sys.argv) == ab + 5:
-                            print(rec.seq[int(sys.argv[ab+4]):])
+                        if len(params) == 5:
+                            print(rec.seq[int(params[4]):])
                         else:
-                            print(rec.seq[int(sys.argv[ab+4]): int(sys.argv[ab+5])])
+                            print(rec.seq[int(params[4]): int(params[5])])
                 else:
-                    print("argument " + sys.argv[ab+3] + " is not a valid argument:")
+                    print("argument " + params[3] + " is not a valid argument:")
                     Task.Task.help(self)
             except StopIteration:
-                print("there is no sequence of number " + sys.argv[ab+2])
+                print("there is no sequence of number " + params[2])
             except ValueError:
-                print("argument \"" + sys.argv[ab+2] + "\" is not a number")
+                print("argument \"" + params[2] + "\" is not a number")
     
