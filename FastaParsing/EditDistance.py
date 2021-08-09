@@ -8,14 +8,15 @@ class EditDistance(Task.Task):
         self.name="edit distance"
         self.curr_results = []
         return super(EditDistance, self).__init__()
-    def hd_help():
-        print("edit distance help:")
-        t = "\t"
-        print(t + "tool -ed [sequence1] [s1_number] [sequence2] [s2_number] [-a|-m|-ma]")
-        print(2*t + "both sequence paramaters have to be a path to a fasta file")
-        print(2*t + "sequence_numbers are the numbers indicating which sequence to read in given file")
-        print(2*t + "if optional parameter -a is used, all alignments with the best score with be displayed too")
-        print(2*t + "if optional parameter -m is used, the dynamic matrix will be displayed")
+    def help(self, pre: str, mult: int):
+        print(pre*mult + "[sequence1] [s1_number] [sequence2] [s2_number] ")
+        print(pre*(mult+1) + "both sequence paramaters have to be a path to a fasta file")
+        print(pre*(mult+1) + "sequence_numbers are the numbers indicating which sequence to read in given file")
+        print(pre*(mult+1) + "-a")
+        print(pre*(mult+2) + "display alignments")
+        print(pre*(mult+1) + "-m")
+        print(pre*(mult+2) + "display the dynamic matrix used for the calculation")
+        print(pre*(mult+1) + "-ma is used if both alignments and matrix should be shown")
     def getMatrix(self, s1, s2):
         h = len(s1) + 1
         w = len(s2) + 1
@@ -61,7 +62,7 @@ class EditDistance(Task.Task):
 
     def run(self, ab):
         if len(sys.argv) < ab+4:
-            hd_help()
+            self.help()
         else:
             fp = FastaParsing.FastaParsing()
             s1 = fp.seqInfo(sys.argv[ab+1],sys.argv[ab+2]).seq
@@ -76,7 +77,7 @@ class EditDistance(Task.Task):
                     print("with matrix:")
                     for i in m:
                         print(i)
-                if sys.argv[ab+5] == "-a" or sys.argv[ab+5] == "-ma":
+                elif sys.argv[ab+5] == "-a" or sys.argv[ab+5] == "-ma":
                     cr = self.backtrack(s1,s2,m)
                     print()
                     print("with alignments:")
@@ -84,6 +85,9 @@ class EditDistance(Task.Task):
                         print(x[0])
                         print(x[1])
                         print()
+                else:
+                    print("argument " + sys.argv[ab+5] + " is not a valid argument:")
+                    Task.Task.help(self)
 
 
         

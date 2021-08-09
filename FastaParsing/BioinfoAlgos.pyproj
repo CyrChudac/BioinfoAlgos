@@ -13,7 +13,7 @@
     <RootNamespace>FastaParsing</RootNamespace>
     <IsWindowsApplication>False</IsWindowsApplication>
     <LaunchProvider>Standard Python launcher</LaunchProvider>
-    <CommandLineArguments>-ed fastaExample.txt 6 fastaExample.txt 5 -ma</CommandLineArguments>
+    <CommandLineArguments>-pdb pdbExample.txt -gl</CommandLineArguments>
     <EnableNativeCodeDebugging>False</EnableNativeCodeDebugging>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
@@ -30,7 +30,13 @@
     </Compile>
     <Compile Include="FastaParsing.py" />
     <Compile Include="HammingDistance.py" />
+    <Compile Include="help.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="main.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="PdbParser.py">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Task.py">
