@@ -1,0 +1,7 @@
+CLUSTAL format alignment by MAFFT FFTLNSLi (v7.215)
+
+
+1 MM
+2 LL
+3 ML
+4 LL

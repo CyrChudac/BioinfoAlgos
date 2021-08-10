@@ -16,16 +16,16 @@ class HammingDistance(Task.Task):
         print(pre*(mult+1) + "if the sequences length differ, the DifferentLengthError is raised")
     def run(self, params):
         if len(params) < 4:
-            self.help()
+            Task.Task.help(self)
         else:
             fp = FastaParsing.FastaParsing()
-            s1 = fp.seqInfo(params[1],params[2]).seq
-            s2 = fp.seqInfo(params[3],params[4]).seq
+            s1 = fp.seqInfo(params[0],params[1]).seq
+            s2 = fp.seqInfo(params[2],params[3]).seq
             if len(s1) != len(s2):
                 raise DifferentLengthError()
             res = 0
             for i in range(len(s1)):
                 if s1[i] != s2[i]:
                     res += 1
-            print(res)
+            return Task.Result(res)
         

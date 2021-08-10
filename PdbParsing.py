@@ -4,7 +4,7 @@ from Bio.PDB.NeighborSearch import NeighborSearch
 from Bio.PDB.vectors import Vector
 from Bio.PDB.Selection import unfold_entities
 
-class PDBParsing(Task.Task):
+class PdbParser(Task.Task):
     class NotALigandError(Exception):
         """the chosen  ligand is not present"""
         pass
@@ -47,42 +47,29 @@ class PDBParsing(Task.Task):
             ns = NeighborSearch(unfold_entities(structure, 'A'))
             center = self.averageVector(resi)
             atoms = ns.search(center, radius, layer)
-            for a in atoms:
-                if predicate(a, resi):
-                    print(toPrint(a))
-            return atoms
+            atoms = [i for i in atoms if predicate(i, resi)]
+            return Task.Result(atoms, Task.Result.printList_advanced(toPrint))
         else:
             raise self.NotALigandError()
     def run(self, params):
-        if len(params) <= 2:
+        if len(params) < 2:
             Task.Task.help(self)
         else:
-            structure = PDBParser().get_structure("s", params[1])
-            if params[2] == "-s" or params[2] == "--show":
-                for model in structure:
-                    for chain in model:
-                        for resi in chain:
-                            print(resi.get_resname())
-                            r = "\t"
-                            for atom in resi:
-                                r = r + atom.get_name() + " "
-                            print(r)
-                        print("--------------------------")
-                return structure
-            elif params[2] == "-a" or params[2] == "--atoms":
+            structure = PDBParser().get_structure("s", params[0])
+            if params[1] == "-s" or params[1] == "--show":
+                return Task.Result(structure, PdbParser.showStructure) 
+            elif params[1] == "-a" or params[1] == "--atoms":
                 r = ""
                 for atom in structure.get_atoms():
                     r = r + atom.get_name() + " "
-                print(r)
-                return r
-            elif params[2] == "-r" or params[2] == "--residues":
+                return Task.Result(r)
+            elif params[1] == "-r" or params[1] == "--residues":
                 r = ""
                 for model in structure:
                     for resi in model.get_residues():
                         r = r + resi.get_resname() + " "
-                print(r)
-                return r
-            elif params[2] == "-q" or params[2] == "--quantities":
+                return Task.Result(r)
+            elif params[1] == "-q" or params[1] == "--quantities":
                 m = len(structure)
                 c = 0
                 r = 0
@@ -93,54 +80,63 @@ class PDBParsing(Task.Task):
                         r += len(chain)
                         for resi in chain:
                             a += len(resi)
-                d = "\t"
-                print("m" + d + "c" + d + "r" + d + "a")
-                print(str(m) + d + str(c) + d + str(r) + d + str(a))
-                return {"models": m,
-                        "chains": c,
-                        "residues": r,
-                        "atoms": a}
-            elif params[2] == "-w" or params[2] == "--width":
+                return Task.Result((m,c,r,a), PdbParser.showQuantities)
+            elif params[1] == "-w" or params[1] == "--width":
                 m = 0
                 for a1 in structure.get_atoms():
                     for a2 in structure.get_atoms():
                         m = max(m, a1 - a2)
-                print(m)
-                return m
-            elif params[2] == "-la" or params[2] == "--ligand-atoms":
+                return Task.Result(m)
+            elif params[1] == "-la" or params[1] == "--ligand-atoms":
                 m = 0
                 if len(params) < 4:
                     Task.Task.help(self)
                 else:
-                    name = "H_" + params[3]
+                    name = "H_" + params[2]
                     return self.getClose(
                         name, structure,
-                        int(params[4]),
+                        float(params[3]),
                         'A',
                         lambda a,r: a.get_parent() != r,
                         lambda a: a.get_fullname() + "\t" + str(a.get_coord()))
-            elif params[2] == "-lr" or params[2] == "--ligand-residues":
+            elif params[1] == "-lr" or params[1] == "--ligand-residues":
                 m = 0
                 if len(params) < 4:
                     Task.Task.help(self)
                 else:
-                    name = "H_" + params[3]
+                    name = "H_" + params[2]
                     return self.getClose(
                         name, 
                         structure, 
-                        int(params[4]), 'R',
+                        float(params[3]),
+                        'R',
                         lambda r1,r2: r1 != r2,
                         lambda r: r.get_resname() + "\t" + str(self.averageVector(r)))
-            elif params[2] == "-gl" or params[2] == "--get-ligands":
+            elif params[1] == "-gl" or params[1] == "--get-ligands":
                 ligs = []
                 for m in structure:
                     for c in m:
                         for r in c:
                             if r.get_full_id()[3][0][0:2] == "H_":
                                 ligs.append(r)
-                for l in ligs:
-                    print(l.get_resname() + "\t" + str(self.averageVector(l)))
-                return ligs
+                return Task.Result(ligs, Task.Result.printList_advanced(
+                    lambda l: l.get_resname() + "\t" + str(self.averageVector(l))))
             else:
-                print("argument " + params[2] + " is not a valid argument:")
+                print("argument " + params[1] + " is not a valid argument:")
                 Task.Task.help(self)
+
+    def showQuantities(quadr):
+        m,c,r,a = quadr
+        d = "\t"
+        print("m" + d + "c" + d + "r" + d + "a")
+        print(str(m) + d + str(c) + d + str(r) + d + str(a))
+    def showStructure(structure):
+        for model in structure:
+            for chain in model:
+                for resi in chain:
+                    print(resi.get_resname())
+                    r = "\t"
+                    for atom in resi:
+                        r = r + atom.get_name() + " "
+                    print(r)
+                print("--------------------------")

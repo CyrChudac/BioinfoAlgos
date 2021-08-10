@@ -13,7 +13,7 @@
     <RootNamespace>FastaParsing</RootNamespace>
     <IsWindowsApplication>False</IsWindowsApplication>
     <LaunchProvider>Standard Python launcher</LaunchProvider>
-    <CommandLineArguments>-pdb pdbExample.txt -gl</CommandLineArguments>
+    <CommandLineArguments>-fp fastaExample.txt 1 -s</CommandLineArguments>
     <EnableNativeCodeDebugging>False</EnableNativeCodeDebugging>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
@@ -36,7 +36,16 @@
     <Compile Include="main.py">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="PdbParser.py">
+    <Compile Include="MsaParsing.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="MsaStructure.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="PdbParsing.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="PositionConservation.py">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Task.py">

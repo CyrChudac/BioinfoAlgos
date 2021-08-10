@@ -11,11 +11,13 @@ class EditDistance(Task.Task):
         print(pre*mult + "[sequence1] [s1_number] [sequence2] [s2_number] ")
         print(pre*(mult+1) + "both sequence paramaters have to be a path to a fasta file")
         print(pre*(mult+1) + "sequence_numbers are the numbers indicating which sequence to read in given file")
+        print()
         print(pre*(mult+1) + "-a")
         print(pre*(mult+2) + "display alignments")
         print(pre*(mult+1) + "-m")
         print(pre*(mult+2) + "display the dynamic matrix used for the calculation")
-        print(pre*(mult+1) + "-ma is used if both alignments and matrix should be shown")
+        print(pre*(mult+1) + "-ma")
+        print(pre*(mult+2) + "is used if both alignments and matrix should be shown")
     def getMatrix(self, s1, s2):
         h = len(s1) + 1
         w = len(s2) + 1
@@ -58,35 +60,55 @@ class EditDistance(Task.Task):
         r2 = ""
         self.backtrackRecur(s1,len(s1),"",s2,len(s2),"",m)
         return self.curr_results
-
+    
     def run(self, params):
         if len(params) < 4:
+            print("wrong parameters count")
             self.help()
         else:
             fp = FastaParsing.FastaParsing()
-            s1 = fp.seqInfo(params[1],params[2]).seq
-            s2 = fp.seqInfo(params[3],params[4]).seq
+            s1 = fp.seqInfo(params[0],params[1]).seq
+            s2 = fp.seqInfo(params[2],params[3]).seq
             m = self.getMatrix(s1, s2)
             ed = m[len(s1)-1][len(s2)-1]
-            print("edit distance is:")
-            print(ed)
-            if len(params) == 6:
-                if params[5] == "-m" or params[5] == "-ma":
-                    print()
-                    print("with matrix:")
-                    for i in m:
-                        print(i)
-                elif params[5] == "-a" or params[5] == "-ma":
-                    cr = self.backtrack(s1,s2,m)
-                    print()
-                    print("with alignments:")
-                    for x in cr:
-                        print(x[0])
-                        print(x[1])
-                        print()
+            if len(params) == 5:
+                if params[4] == "-m":
+                    return Task.Result((ed, m, None), EditDistance.m)
+                elif params[4] == "-a":
+                    return Task.Result((ed, m, None), EditDistance.a)
+                elif params[4] == "-ma":
+                    return Task.Result((ed, m, None), EditDistance.ma)
                 else:
-                    print("argument " + params[5] + " is not a valid argument:")
+                    print("argument " + params[4] + " is not a valid argument:")
                     Task.Task.help(self)
+            else:
+                return Task.Result((ed, m, None), EditDistance.alignShow)
 
-
-        
+    def distanceShow(trip):
+        ed, _, _ = trip
+        print("edit distance is:")
+        print(ed)
+    def matrixShow(trip):
+        ed, m, cr = trip
+        print()
+        print("with matrix:")
+        for i in m:
+            print(i)
+    def alignShow(trip):
+        ed, m, cr = trip
+        print()
+        print("with alignments:")
+        for x in cr:
+            print(x[0])
+            print(x[1])
+            print()
+    def m(trip):
+        EditDistance.distanceShow(trip)
+        EditDistance.matrixShow(trip)
+    def ma(trip):
+        EditDistance.distanceShow(trip)
+        EditDistance.matrixShow(trip)
+        EditDistance.alignShow(trip)
+    def a(trip):
+        EditDistance.distanceShow(trip)
+        EditDistance.alignShow(trip)
