@@ -63,9 +63,12 @@ class EditDistance(Task.Task):
     
     def run(self, params):
         if len(params) < 4:
-            print("wrong parameters count")
-            self.help()
+            print("wrong number of parameters:")
+            Task.Task.help(self)
         else:
+            if not Task.isFile(params[0]) or not Task.isFile(params[2]):
+                print("one of given paths is not a path")
+                return None
             fp = FastaParsing.FastaParsing()
             s1 = fp.seqInfo(params[0],params[1]).seq
             s2 = fp.seqInfo(params[2],params[3]).seq

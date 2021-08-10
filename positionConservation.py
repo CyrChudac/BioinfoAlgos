@@ -26,9 +26,13 @@ class PositionConservation(Task.Task):
         print(pre*(mult+3) + "x specifies the threshold under which the average has to be to pass")
         print(pre*(mult+3) + "default value is " + str(PositionConservation.threshold))
     def run(self, params):
-        if len(params) < 2:
-            Task.task.help(self)
+        if len(params) < 3:
+            print("wrong number of parameters:")
+            Task.Task.help(self)
         else:
+            if not Task.isFile(params[0]) or not Task.isFile(params[1]):
+                print("one of given paths is not a path")
+                return None
             parser = MsaParsing.MSAParser()
             ali = parser.run([params[0],"-s"]).val
             result = []
@@ -53,8 +57,11 @@ class PositionConservation(Task.Task):
                         return None
                 else:
                     n = int(params[2][2:])
-                return Task.Result(result[-n:-1], Task.Result.printList_advanced(self.show))
-            if params[2][0:2] == "-ic" or params[2] == "--is-conservated":
+                return Task.Result(result[0:n], Task.Result.printList_advanced(self.show))
+            elif params[2][0:3] == "-ic" or params[2] == "--is-conservated":
+                if len(params) < 4:
+                    print("missing number indicating, which position to test")
+                    return None
                 n = int(params[3])
                 result.sort(key=lambda t: t[0])
                 t = PositionConservation.threshold
@@ -74,8 +81,11 @@ class PositionConservation(Task.Task):
                     sum += result[i][1]
                 sum /= (end-start)
                 return Task.Result((sum,t), PositionConservation.showIc)
+            else:
+                print("argument " + params[2] + " is not a valid argument:")
+                Task.Task.help(self)
     def show(self,x):
-        return "column " + str(x[0]) + ":\t" + str(x[1])
+        print("column " + str(x[0]) + ":\t" + str(x[1]))
     def showIc(x):
         sum,t = x
-        return "(" + str(sum) + " < " + str(t) + ") = " + str(sum < t)
+        print("(" + str(sum) + " < " + str(t) + ") = " + str(sum < t))

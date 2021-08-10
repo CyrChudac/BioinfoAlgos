@@ -33,9 +33,13 @@ class FastaParsing(Task.Task):
         print(rec.description)
     def run(self, params):
         if len(params) < 3:
+            print("wrong number of parameters:")
             Task.Task.help(self)
         else:
             try:
+                if not Task.isFile(params[0]):
+                    print("one of given paths is not a path")
+                    return None
                 rec = self.seqInfo(params[0], params[1])
                 if params[2] == "-s" or params[2] == "--show":
                     if len(params) == 3:

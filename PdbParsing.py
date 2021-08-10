@@ -53,8 +53,12 @@ class PdbParser(Task.Task):
             raise self.NotALigandError()
     def run(self, params):
         if len(params) < 2:
+            print("wrong number of parameters:")
             Task.Task.help(self)
         else:
+            if not Task.isFile(params[0]):
+                print("one of given paths is not a path")
+                return None
             structure = PDBParser().get_structure("s", params[0])
             if params[1] == "-s" or params[1] == "--show":
                 return Task.Result(structure, PdbParser.showStructure) 
@@ -98,7 +102,7 @@ class PdbParser(Task.Task):
                         float(params[3]),
                         'A',
                         lambda a,r: a.get_parent() != r,
-                        lambda a: a.get_fullname() + "\t" + str(a.get_coord()))
+                        lambda a: a.get_name() + "\t" + str(a.get_coord()))
             elif params[1] == "-lr" or params[1] == "--ligand-residues":
                 m = 0
                 if len(params) < 4:

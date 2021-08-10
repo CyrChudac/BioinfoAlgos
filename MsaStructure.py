@@ -42,11 +42,15 @@ class MSAStructure(Task.Task):
         return -1
     def run(self, params):
         if len(params) < 6:
-            Task.task.help(self)
+            print("wrong number of parameters:")
+            Task.Task.help(self)
         else:
+            if not Task.isFile(params[0]) or not Task.isFile(params[1]) or not Task.isFile(params[3]):
+                print("one of given paths is not a path")
+                return None
             pdbParser = PdbParsing.PdbParser()
             structure = pdbParser.run([params[1],"-s"])
-            if structure == None:
+            if structure is None:
                 print("your pdb file can't be read")
                 return None
             structure = structure.val
@@ -54,7 +58,7 @@ class MSAStructure(Task.Task):
             if len(params) > 6:
                 radius = params[6]
             around = pdbParser.run([params[1],"--ligand-residues", params[2], radius]).val
-            if around == None:
+            if around is None:
                 print("en error while finding the active site in the pdb file")
                 return None
             if len(around) == 0:
@@ -62,7 +66,7 @@ class MSAStructure(Task.Task):
             around = [r for r in around if r.get_full_id()[3][0] == " "]
             msaParser = MsaParsing.MSAParser()
             align = msaParser.run([params[0],"-s"])
-            if align == None:
+            if align is None:
                 print("your alignment file can't be read")
                 return None
             align = align.val

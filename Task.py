@@ -1,3 +1,5 @@
+from os import path
+
 class Task():
     def __init__(self):
         self.name = "undefined"
@@ -29,3 +31,6 @@ class Result():
         return Result.ListPrinter(func).show
     def printVal(v):
         print(v)
+
+def isFile(x):
+    return path.isfile(x)

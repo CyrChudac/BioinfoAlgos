@@ -67,8 +67,12 @@ class MSAParser(Task.Task):
         return result
     def run(self, params):
         if len(params) < 2:
-            Task.task.help(self)
+            print("wrong number of parameters:")
+            Task.Task.help(self)
         else:
+            if not Task.isFile(params[0]):
+                print("one of given paths is not a path")
+                return None
             align = AlignIO.read(params[0],"clustal")
             if params[1] == "-s" or params[1] == "--show":
                 return Task.Result(align)
@@ -84,9 +88,14 @@ class MSAParser(Task.Task):
                         result = align[int(params[2][2:])].seq
                 if params[2] == "-id":
                     if len(params) > 3:
-                        result = self.findSeq(align, params[3]).seq
+                        result = self.findSeq(align, params[3])
+                        if result is None:
+                            print("no such id in the file")
+                            return None
+                        result = result.seq
                     else:
                         print("sequence number not given")
+                        return None
                 return Task.Result(result)
             elif params[1][0:2] == "-c" or params[1] == "--column":
                 if len(params) == 3:
@@ -106,6 +115,9 @@ class MSAParser(Task.Task):
                 if len(params) == 2:
                     matrix = self.ScoringMatrix()
                 else:
+                    if not Task.isFile(params[2]):
+                        print("one of given paths is not a path")
+                        return None
                     matrix = MSAParser.ScoringMatrix.fromFile(params[2])
                     if len(params) > 3:
                         start = int(params[3])
