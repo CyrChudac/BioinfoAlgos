@@ -37,17 +37,5 @@ except (KeyError, IndexError):
     
 result = task.run(sys.argv[2:])
 
-"""
-try:
-    result = task.run(sys.argv[2:])
-except Exception as err:
-    print("!!!!!!!!!Erorr!!!!!!!!!")
-    print(sys.argv)
-    print(err)
-    print("press any key to continue...")
-    sys.stdin.readline()
-"""
 if result != None:
     result.display()
-print("press any key to continue...")
-sys.stdin.readline()

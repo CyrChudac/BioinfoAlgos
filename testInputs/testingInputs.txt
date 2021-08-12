@@ -1,65 +1,66 @@
--fp fastaExample.txt 1
--fp fastaExample.txt 1 -s
--fp fastaExample.tx 1 -s
--fp fastaExample.txt 7 -s
--fp fastaExample.txt k -s
--fp fastaExample.txt 2 -s -d
--fp fastaExample.txt 3 -s -s
--fp fastaExample.txt 4 -s -ds
--fp fastaExample.txt 5 -s -sd
--fp fastaExample.txt 5 -s -k
--fp fastaExample.txt 6 -l
--fp fastaExample.txt 4 -ss 3 5 
--fp fastaExample.txt 4 -ss 3 
--fp fastaExample.txt 4 -sh
------------------------------------------------
--hd fastaExample.txt 4 fastaExample.txt
--hd fastaExample.txt 4 fastaExample.txt 5
--hd fastaExample.txt 4 fastaExample.tx 5
--hd fastaExample.txt 3 fastaExample.txt 5
------------------------------------------------
--ed fastaExample.txt 3 fastaExample.txt 5
--ed fastaExample.txt 4 fastaExample.tx 5
--ed fastaExample.txt 3 fastaExample.txt 5 -a
--ed fastaExample.txt 3 fastaExample.txt 5 -m
--ed fastaExample.txt 3 fastaExample.txt 5 -ma
------------------------------------------------
--pdb hemoglobinPdb.txt -s
--pdb hemoglobinPdb.txt
--pdb hemoglobinPdb.tx -s
--pdb hemoglobinPdb.txt -a
--pdb hemoglobinPdb.txt -r
--pdb hemoglobinPdb.txt -q
--pdb hemoglobinPdb.txt -w
--pdb hemoglobinPdb.txt -la HEM 5
--pdb hemoglobinPdb.txt -la HEM
--pdb hemoglobinPdb.txt -lr HEM 4.7
--pdb hemoglobinPdb.txt -gl
------------------------------------------------
--msap msaExample.txt -s
--msap msaExample.tx -s
--msap msaExample.txt
--msap msaExample.txt -sq -n1
--msap msaExample.txt -sq -n 1
--msap msaExample.txt -sq -n
--msap msaExample.txt -sq -id UniRef90
--msap msaExample.txt -sq -id
--msap msaExample.txt -c 5
--msap msaExample.txt -c5
--msap msaExample.txt -c
--msap msaExample.txt -sop
--msap msaExample.txt -sop scoringMatrix.txt
--msap msaExample.txt -sop scoringMatrix.txt 5
------------------------------------------------
--pc msaExample.txt scoringMatrix.txt -f 5
--pc msaExample.txt scoringMatrix.txt -f10
--pc msaExample.txt scoringMatrix.txt -f 60
--pc msaExample.txt scoringMatrix.txt -ic 10
--pc msaExample.txt scoringMatrix.txt -ic 10 -w 2
--pc msaExample.txt scoringMatrix.txt -ic 1 -w 5
--pc msaExample.txt scoringMatrix.txt -ic 10 -t 0.5
--pc msaExample.txt scoringMatrix.txt -ic 10 -w 2 -t 0.4
--pc msaExample.txt scoringMatrix.txt -ic 10 -t 0.4 -w 2
------------------------------------------------
--msas msaExample.txt hemoglobinPdb.txt HEM scoringMatrix.txt 0.17 5 20
--msas msaExample.txt hemoglobinPdb.txt HEM scoringMatrix.txt 0.17 5
+-fp testInputs\fastaExample.txt 1
+-fp testInputs\fastaExample.txt 1 -s
+-fp testInputs\fastaExample.tx 1 -s
+-fp testInputs\fastaExample.txt 7 -s
+-fp testInputs\fastaExample.txt k -s
+-fp testInputs\fastaExample.txt 2 -s -d
+-fp testInputs\fastaExample.txt 3 -s -s
+-fp testInputs\fastaExample.txt 4 -s -ds
+-fp testInputs\fastaExample.txt 5 -s -sd
+-fp testInputs\fastaExample.txt 5 -s -k
+-fp testInputs\fastaExample.txt 6 -l
+-fp testInputs\fastaExample.txt 4 -ss 3 5 
+-fp testInputs\fastaExample.txt 4 -ss 3 
+-fp testInputs\fastaExample.txt 4 -sh
+
+-hd testInputs\fastaExample.txt 4 testInputs\fastaExample.txt
+-hd testInputs\fastaExample.txt 4 testInputs\fastaExample.txt 5
+-hd testInputs\fastaExample.txt 4 testInputs\fastaExample.tx 5
+-hd testInputs\fastaExample.txt 3 testInputs\fastaExample.txt 5
+
+-ed testInputs\fastaExample.txt 3 testInputs\fastaExample.txt 5
+-ed testInputs\fastaExample.txt 4 testInputs\fastaExample.tx 5
+-ed testInputs\fastaExample.txt 3 testInputs\fastaExample.txt 5 -a
+-ed testInputs\fastaExample.txt 3 testInputs\fastaExample.txt 5 -m
+-ed testInputs\fastaExample.txt 3 testInputs\fastaExample.txt 5 -ma
+
+-pdb testInputs\hemoglobinPdb.txt -s
+-pdb testInputs\hemoglobinPdb.txt
+-pdb testInputs\hemoglobinPdb.tx -s
+-pdb testInputs\hemoglobinPdb.txt -a
+-pdb testInputs\hemoglobinPdb.txt -r
+-pdb testInputs\hemoglobinPdb.txt -q
+-pdb testInputs\hemoglobinPdb.txt -w
+-pdb testInputs\hemoglobinPdb.txt -la HEM 5
+-pdb testInputs\hemoglobinPdb.txt -la HEM
+-pdb testInputs\hemoglobinPdb.txt -lr HEM 4.7
+-pdb testInputs\hemoglobinPdb.txt -gl
+
+-msap testInputs\msaExample.txt -s
+-msap testInputs\msaExample.tx -s
+-msap testInputs\msaExample.txt
+-msap testInputs\msaExample.txt -sq -n1
+-msap testInputs\msaExample.txt -sq -n 1
+-msap testInputs\msaExample.txt -sq -n
+-msap testInputs\msaExample.txt -sq -id UniRef90
+-msap testInputs\msaExample.txt -sq -id nonexistent
+-msap testInputs\msaExample.txt -sq -id
+-msap testInputs\msaExample.txt -c 5
+-msap testInputs\msaExample.txt -c5
+-msap testInputs\msaExample.txt -c
+-msap testInputs\msaExample.txt -sop
+-msap testInputs\msaExample.txt -sop testInputs\scoringMatrix.txt
+-msap testInputs\msaExample.txt -sop testInputs\scoringMatrix.txt 5
+
+-pc testInputs\msaExample.txt testInputs\scoringMatrix.txt -f 5
+-pc testInputs\msaExample.txt testInputs\scoringMatrix.txt -f10
+-pc testInputs\msaExample.txt testInputs\scoringMatrix.txt -f 60
+-pc testInputs\msaExample.txt testInputs\scoringMatrix.txt -ic 10
+-pc testInputs\msaExample.txt testInputs\scoringMatrix.txt -ic 10 -w 2
+-pc testInputs\msaExample.txt testInputs\scoringMatrix.txt -ic 1 -w 5
+-pc testInputs\msaExample.txt testInputs\scoringMatrix.txt -ic 10 -t 0.5
+-pc testInputs\msaExample.txt testInputs\scoringMatrix.txt -ic 10 -w 2 -t 0.4
+-pc testInputs\msaExample.txt testInputs\scoringMatrix.txt -ic 10 -t 0.4 -w 2
+
+-msas testInputs\msaExample.txt testInputs\hemoglobinPdb.txt HEM testInputs\scoringMatrix.txt 0.17 5 20
+-msas testInputs\msaExample.txt testInputs\hemoglobinPdb.txt HEM testInputs\scoringMatrix.txt 0.17 5

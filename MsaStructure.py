@@ -72,20 +72,25 @@ class MSAStructure(Task.Task):
             align = align.val
             ppb=PPBuilder()
             present = False
-            isConserv = True
+            isConserv = 0
             for resi in around:
                 id = resi.get_full_id()
                 seq = ppb.build_peptides(structure[id[1]][id[2]])
-                resiNum = id[3][2]
+                if len(seq) > 0:
+                    seq = seq[0].get_sequence()
+                else:
+                    continue
+                resiNum = id[3][1]
                 seqNum = self.findSeq(align,seq)
                 if seqNum != -1:
                     inAlignNum = self.findResi(align[seqNum].seq, resiNum)
                     if inAlignNum >= 0:
                         present = True
                         pc = positionConservation.PositionConservation()
-                        isConserv = isConserv and pc.run([params[0],params[3],"-ic","-t",params[4],"-w",params[5]])
+                        result = pc.run([params[0],params[3],"-ic",str(inAlignNum),"-t",params[4],"-w",params[5]]).val
+                        isConserv = max(isConserv, result[0])
             if present:
-                return Task.Result(isConserv)
+                return Task.Result((isConserv, float(params[4])), positionConservation.PositionConservation.showIc)
             else:
                 print("no active residue was found in both alignment and sequence")
     def noActive(x):
