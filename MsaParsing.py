@@ -96,7 +96,7 @@ class MSAParser(Task.Task):
                     else:
                         print("sequence number not given")
                         return None
-                return Task.Result(result)
+                return Task.Result(result, Task.Result.printSeq)
             elif params[1][0:2] == "-c" or params[1] == "--column":
                 if len(params) == 3:
                     n = int(params[2])

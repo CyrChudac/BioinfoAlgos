@@ -74,6 +74,7 @@ class PositionConservation(Task.Task):
                     elif params[i] == "-t" or params[i] == "--threshold":
                         t = float(params[i+1])
                         i += 1
+                    i += 1
                 start = max(0, n - w)
                 end = min(len(result), n + w + 1)
                 sum = 0
@@ -85,7 +86,7 @@ class PositionConservation(Task.Task):
                 print("argument " + params[2] + " is not a valid argument:")
                 Task.Task.help(self)
     def show(self,x):
-        print("column " + str(x[0]) + ":\t" + str(x[1]))
+        return "column " + str(x[0]) + ":\t" + str(x[1])
     def showIc(x):
         sum,t = x
         print("(" + str(sum) + " < " + str(t) + ") = " + str(sum < t))

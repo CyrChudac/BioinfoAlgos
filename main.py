@@ -27,13 +27,17 @@ longer = {
     "--position-conservation": "-pc",
     "--multiseq-align-structure": "-msas"}
 try:
+
     if sys.argv[1][0:2] == "--":
         task = dic[longer[sys.argv[1]]]
     else:
         task = dic[sys.argv[1]]
-except KeyError:
+except (KeyError, IndexError):
     task = help.Help(dic, longer)
+    
+result = task.run(sys.argv[2:])
 
+"""
 try:
     result = task.run(sys.argv[2:])
 except Exception as err:
@@ -42,6 +46,7 @@ except Exception as err:
     print(err)
     print("press any key to continue...")
     sys.stdin.readline()
+"""
 if result != None:
     result.display()
 print("press any key to continue...")

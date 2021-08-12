@@ -5,9 +5,6 @@ from Bio.PDB.vectors import Vector
 from Bio.PDB.Selection import unfold_entities
 
 class PdbParser(Task.Task):
-    class NotALigandError(Exception):
-        """the chosen  ligand is not present"""
-        pass
     def __init__(self):
         self.name = "pdb parsing"
     def help(self, pre: str, mult: int):
@@ -50,7 +47,8 @@ class PdbParser(Task.Task):
             atoms = [i for i in atoms if predicate(i, resi)]
             return Task.Result(atoms, Task.Result.printList_advanced(toPrint))
         else:
-            raise self.NotALigandError()
+            print("ligand of name " + center_name[2:] + " not found in given file")
+            return None
     def run(self, params):
         if len(params) < 2:
             print("wrong number of parameters:")

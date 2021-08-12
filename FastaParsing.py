@@ -22,15 +22,15 @@ class FastaParsing(Task.Task):
             res = next(iter)
         return res
     def descSeq(rec):
-        print(rec.description)
-        print(rec.seq)
+        print("> " + rec.description)
+        Task.Result.printSeq(rec.seq)
     def seq(rec):
-        print(rec.seq)
+        Task.Result.printSeq(rec.seq)
     def desc(rec):
-        print(rec.description)
+        print("> " + rec.description)
     def seqDesc(rec):
-        print(rec.seq)
-        print(rec.description)
+        Task.Result.printSeq(rec.seq)
+        print("> " + rec.description)
     def run(self, params):
         if len(params) < 3:
             print("wrong number of parameters:")
@@ -64,9 +64,9 @@ class FastaParsing(Task.Task):
                         return None
                     else:
                         if len(params) == 4:
-                            return Task.Result(rec.seq[int(params[3]):])
+                            return Task.Result(rec.seq[int(params[3]):], Task.Result.printSeq)
                         else:
-                            return Task.Result(rec.seq[int(params[3]): int(params[4])])
+                            return Task.Result(rec.seq[int(params[3]): int(params[4])], Task.Result.printSeq)
                 else:
                     print("argument " + params[2] + " is not a valid argument:")
                     Task.Task.help(self)

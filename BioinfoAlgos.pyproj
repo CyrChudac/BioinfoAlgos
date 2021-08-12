@@ -13,7 +13,7 @@
     <RootNamespace>FastaParsing</RootNamespace>
     <IsWindowsApplication>False</IsWindowsApplication>
     <LaunchProvider>Standard Python launcher</LaunchProvider>
-    <CommandLineArguments>-pc msaExample.txt scoringMatrix.txt -ic 10</CommandLineArguments>
+    <CommandLineArguments>-pdb testInputs\hemoglobinPdb.txt -la NOH 5</CommandLineArguments>
     <EnableNativeCodeDebugging>False</EnableNativeCodeDebugging>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">

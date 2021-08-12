@@ -31,6 +31,9 @@ class Result():
         return Result.ListPrinter(func).show
     def printVal(v):
         print(v)
+    def printSeq(seq, step = 75):
+        for i in range(0, len(seq), step):
+            print(seq[i:i+step])
 
 def isFile(x):
     return path.isfile(x)

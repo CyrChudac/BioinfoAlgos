@@ -7,7 +7,7 @@ import MsaParsing
 import positionConservation
 
 class MSAStructure(Task.Task):
-    radius = 2.5
+    radius = 5
     def __init__(self):
         self.name = "msa structure"
     def help(self, pre: str, mult: int):
