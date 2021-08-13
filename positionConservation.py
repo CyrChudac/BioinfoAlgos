@@ -65,25 +65,32 @@ class PositionConservation(Task.Task):
                 if len(params) < 4:
                     print("missing number indicating, which position to test")
                     return None
-                n = int(params[3])
+                try:
+                    n = int(params[3])
+                except ValueError:
+                    print("position has to by specified as integer, not " + params[3])
                 result.sort(key=lambda t: t[0])
                 t = PositionConservation.threshold
                 w = PositionConservation.window
                 i = 4
                 while i < len(params):
-                    if params[i] == "-w" or params[i] == "--window":
-                        w = int(params[i+1])
-                        i += 1
-                    elif params[i] == "-t" or params[i] == "--threshold":
-                        t = float(params[i+1])
-                        i += 1
+                    try:
+                        if params[i] == "-w" or params[i] == "--window":
+                            i += 1
+                            w = int(params[i])
+                        elif params[i] == "-t" or params[i] == "--threshold":
+                            i += 1
+                            t = float(params[i])
+                    except ValueError:
+                        print("window size or threshold value is not a propper number")
+                        return None
                     i += 1
                 start = max(0, n - w)
                 end = min(len(result), n + w + 1)
                 sum = 0
                 for i in range(start, end):
                     sum += result[i][1]
-                sum /= (end-start)
+                sum = sum/(end-start-1)
                 return Task.Result((sum,t), PositionConservation.showIc)
             else:
                 print("argument " + params[2] + " is not a valid argument:")

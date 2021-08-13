@@ -13,7 +13,7 @@
     <RootNamespace>FastaParsing</RootNamespace>
     <IsWindowsApplication>False</IsWindowsApplication>
     <LaunchProvider>Standard Python launcher</LaunchProvider>
-    <CommandLineArguments>-msas testInputs\msaHemoConstructedEx.txt testInputs\hemoglobinPdb.txt HEM testInputs\scoringMatrix.txt 0.17 5</CommandLineArguments>
+    <CommandLineArguments>-msas testInputs\msaHemoConstructedEx.txt testInputs\hemoglobinPdb.txt HEM testInputs\scoringMatrix.txt 0.17 k</CommandLineArguments>
     <EnableNativeCodeDebugging>False</EnableNativeCodeDebugging>
     <SuppressEnvironmentCreationPrompt>True</SuppressEnvironmentCreationPrompt>
   </PropertyGroup>
