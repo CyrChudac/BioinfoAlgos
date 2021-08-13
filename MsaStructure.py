@@ -87,8 +87,12 @@ class MSAStructure(Task.Task):
                     if inAlignNum >= 0:
                         present = True
                         pc = positionConservation.PositionConservation()
-                        result = pc.run([params[0],params[3],"-ic",str(inAlignNum),"-t",params[4],"-w",params[5]]).val
-                        isConserv = max(isConserv, result[0])
+                        result = pc.run([params[0],params[3],"-ic",str(inAlignNum),"-t",params[4],"-w",params[5]])
+                        if result is not None:
+                            isConserv = max(isConserv, result.val[0])
+                        else:
+                            print("internal error when running position cerservation check around postion " +
+                                  str(inAlignNum) + " in the alignment")
             if present:
                 return Task.Result((isConserv, float(params[4])), positionConservation.PositionConservation.showIc)
             else:

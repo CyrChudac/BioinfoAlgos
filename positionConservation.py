@@ -40,11 +40,14 @@ class PositionConservation(Task.Task):
                 sum = parser.run([params[0],"-sop",params[1],str(i)]).val
                 result.append((i, sum))
             result.sort(key=lambda t: t[1])
+            #removing the negative numbers, if they exist
             if result[0][1] < 0:
                 lowest = result[0][1]
                 for i in range(0, len(result)):
                     result[i] = (result[i][0], result[i][1] - lowest)
-            additions = len(ali)*(len(ali)+1)/2
+
+            #n*(n+1)/2, but n is actually (n-1) here, so (n-1)*(n-1+1)/2
+            additions = len(ali)*(len(ali)-1)/2
             for i in range(0, len(result)):
                 result[i] = (result[i][0], result[i][1]/additions)
             if params[2][0:2] == "-f" or params[2] == "--first":
@@ -88,5 +91,5 @@ class PositionConservation(Task.Task):
     def show(self,x):
         return "column " + str(x[0]) + ":\t" + str(x[1])
     def showIc(x):
-        sum,t = x
+        sum, t = x
         print("(" + str(sum) + " < " + str(t) + ") = " + str(sum < t))

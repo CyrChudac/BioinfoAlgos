@@ -62,5 +62,5 @@
 -pc testInputs\msaExample.txt testInputs\scoringMatrix.txt -ic 10 -w 2 -t 0.4
 -pc testInputs\msaExample.txt testInputs\scoringMatrix.txt -ic 10 -t 0.4 -w 2
 
--msas testInputs\msaExample.txt testInputs\hemoglobinPdb.txt HEM testInputs\scoringMatrix.txt 0.17 5 20
--msas testInputs\msaExample.txt testInputs\hemoglobinPdb.txt HEM testInputs\scoringMatrix.txt 0.17 5
+-msas testInputs\msaHemoConstructedEx.txt testInputs\hemoglobinPdb.txt HEM testInputs\scoringMatrix.txt 0.17 5 20
+-msas testInputs\msaHemoConstructedEx.txt testInputs\hemoglobinPdb.txt HEM testInputs\scoringMatrix.txt 0.17 5

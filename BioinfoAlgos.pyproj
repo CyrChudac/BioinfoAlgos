@@ -13,8 +13,9 @@
     <RootNamespace>FastaParsing</RootNamespace>
     <IsWindowsApplication>False</IsWindowsApplication>
     <LaunchProvider>Standard Python launcher</LaunchProvider>
-    <CommandLineArguments>-crocodile</CommandLineArguments>
+    <CommandLineArguments>-msas testInputs\msaHemoConstructedEx.txt testInputs\hemoglobinPdb.txt HEM testInputs\scoringMatrix.txt 0.17 5</CommandLineArguments>
     <EnableNativeCodeDebugging>False</EnableNativeCodeDebugging>
+    <SuppressEnvironmentCreationPrompt>True</SuppressEnvironmentCreationPrompt>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <DebugSymbols>true</DebugSymbols>
